@@ -14,19 +14,6 @@
         },
         {
           "name": "AMAZON.CancelItem"
-        },
-        {
-          "name": "ShowProductsIntent",
-          "samples": [
-            "show me products",
-            "list me products",
-            "show products",
-            "list products",
-            "show product",
-            "list product",
-            "show me all the products",
-            "show me all products"
-          ]
         }
       ],
       "types": []
