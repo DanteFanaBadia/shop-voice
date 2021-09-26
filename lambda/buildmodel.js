@@ -12,19 +12,13 @@ new ControlInteractionModelGenerator()
         "say hellow world",
     ]})
     .addIntent({ name: "ShowProductsIntent", samples: [
-        "products",
-        "product",
         "show me products",
         "list me products",
         "show products",
         "list products",
         "show product",
         "list product",
-        "what you got?",
         "show me all the products",
         "show me all products",
-        "show me all",
-        "show me",
-        "show",
     ]}) 
     .buildAndWrite('../skill-package/interactionModels/custom/en-US.json');
