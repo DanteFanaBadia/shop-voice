@@ -154,3 +154,5 @@ exports.handler = Alexa.SkillBuilders.custom()
         ErrorHandler)
     .withCustomUserAgent('sample/hello-world/v1.2')
     .lambda();
+
+    exports.LaunchRequestHandler = LaunchRequestHandler;

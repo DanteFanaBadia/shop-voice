@@ -1,40 +1,31 @@
 {
   "interactionModel": {
     "languageModel": {
-      "invocationName": "shop voice",
+      "invocationName": "hello world",
       "intents": [
         {
-          "name": "AMAZON.CancelIntent",
-          "samples": []
+          "name": "AMAZON.StopIntent"
         },
         {
-          "name": "AMAZON.HelpIntent",
-          "samples": []
+          "name": "AMAZON.NavigateHomeIntent"
         },
         {
-          "name": "AMAZON.StopIntent",
-          "samples": []
+          "name": "AMAZON.HelpIntent"
         },
         {
-          "name": "HelloWorldIntent",
-          "slots": [],
+          "name": "AMAZON.CancelItem"
+        },
+        {
+          "name": "HelloIntent",
           "samples": [
             "hello",
-            "how are you",
             "say hi world",
-            "say hi",
-            "hi",
-            "say hello world",
-            "say hello"
+            "say hellow world"
           ]
-        },
-        {
-          "name": "AMAZON.NavigateHomeIntent",
-          "samples": []
         }
       ],
       "types": []
-    }
-  },
-  "version": "1"
+    },
+    "prompts": []
+  }
 }
