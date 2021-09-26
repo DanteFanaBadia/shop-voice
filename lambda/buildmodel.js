@@ -6,11 +6,9 @@ new ControlInteractionModelGenerator()
     .addIntent({ name: "AMAZON.NavigateHomeIntent" })
     .addIntent({ name: "AMAZON.HelpIntent" })
     .addIntent({ name: "AMAZON.CancelItem" })
-
     .addIntent({ name: "HelloIntent", samples: [
         "hello",
         "say hi world",
         "say hellow world",
-    ]})
-    
+    ]}) 
     .buildAndWrite('../skill-package/interactionModels/custom/en-US.json');
