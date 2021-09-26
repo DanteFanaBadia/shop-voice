@@ -14,20 +14,6 @@ const LaunchRequestHandler = {
     }
 };
 
-const HelloWorldIntentHandler = {
-    canHandle(handlerInput) {
-        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
-            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'HelloWorldIntent';
-    },
-    handle(handlerInput) {
-        const speakOutput = 'Hello World!';
-
-        return handlerInput.responseBuilder
-            .speak(speakOutput)
-            .getResponse();
-    }
-};
-
 const ShowProductsIntentHandler = {
     canHandle(handlerInput) {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
@@ -148,7 +134,6 @@ const ErrorHandler = {
 
 module.exports = {
     LaunchRequestHandler,
-    HelloWorldIntentHandler,
     ShowProductsIntentHandler,
     HelpIntentHandler,
     CancelAndStopIntentHandler,
