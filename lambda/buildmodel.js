@@ -9,13 +9,10 @@ new ControlInteractionModelGenerator()
 
     // Add a custom intent
     .addIntent({ name: 'ShowProductsIntent', samples: [
-        "hello",
-        "how are you",
-        "say hi world",
-        "say hi",
-        "hi",
-        "say hello world",
-        "say hello"
+        "show me all the products",
+        "show me all products",
+        "show me products",
+        "show products"
     ]})
 
     // Build and write (be careful, this overwrites your existing model!!!)
