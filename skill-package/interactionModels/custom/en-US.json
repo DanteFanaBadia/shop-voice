@@ -4,33 +4,37 @@
       "invocationName": "shop voice",
       "intents": [
         {
-          "name": "AMAZON.StopIntent"
+          "name": "AMAZON.CancelIntent",
+          "samples": []
         },
         {
-          "name": "AMAZON.NavigateHomeIntent"
+          "name": "AMAZON.HelpIntent",
+          "samples": []
         },
         {
-          "name": "AMAZON.HelpIntent"
+          "name": "AMAZON.StopIntent",
+          "samples": []
         },
         {
-          "name": "AMAZON.CancelItem"
-        },
-        {
-          "name": "ShowProductsIntent",
+          "name": "HelloWorldIntent",
+          "slots": [],
           "samples": [
-            "show me products",
-            "list me products",
-            "show products",
-            "list products",
-            "show product",
-            "list product",
-            "show me all the products",
-            "show me all products"
+            "hello",
+            "how are you",
+            "say hi world",
+            "say hi",
+            "hi",
+            "say hello world",
+            "say hello"
           ]
+        },
+        {
+          "name": "AMAZON.NavigateHomeIntent",
+          "samples": []
         }
       ],
       "types": []
-    },
-    "prompts": []
-  }
+    }
+  },
+  "version": "3"
 }
