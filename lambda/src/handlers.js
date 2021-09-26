@@ -6,7 +6,7 @@ const LaunchRequestHandler = {
     },
     handle(handlerInput) {
         const speakOutput = `
-            Welcome to ShopVoice,  here you can say things like "let's search a product", "show me all the product" and "let's place an order".
+            Welcome to ShopVoice,  here you can say things like "let's search a product", "show me all the products" and "let's place an order".
         `;
 
         return handlerInput.responseBuilder
@@ -26,10 +26,25 @@ const HelloWorldIntentHandler = {
 
         return handlerInput.responseBuilder
             .speak(speakOutput)
-            //.reprompt('add a reprompt if you want to keep the session open for the user to respond')
             .getResponse();
     }
 };
+
+const ShowProductsIntentHandler = {
+    canHandle(handlerInput) {
+        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
+            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'ShowProductsIntent';
+    },
+
+    handle(handlerInput) {
+        const speakOutput = 'This are ours products';
+
+        return handlerInput.responseBuilder
+            .speak(speakOutput)
+            .reprompt('add a reprompt if you want to keep the session open for the user to respond')
+            .getResponse();
+    }
+}
 
 const HelpIntentHandler = {
     canHandle(handlerInput) {
@@ -136,6 +151,7 @@ const ErrorHandler = {
 module.exports = {
     LaunchRequestHandler,
     HelloWorldIntentHandler,
+    ShowProductsIntentHandler,
     HelpIntentHandler,
     CancelAndStopIntentHandler,
     FallbackIntentHandler,
