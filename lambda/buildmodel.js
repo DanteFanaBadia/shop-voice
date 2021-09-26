@@ -6,11 +6,6 @@ new ControlInteractionModelGenerator()
     .addIntent({ name: "AMAZON.NavigateHomeIntent" })
     .addIntent({ name: "AMAZON.HelpIntent" })
     .addIntent({ name: "AMAZON.CancelItem" })
-    .addIntent({ name: "HelloIntent", samples: [
-        "hello",
-        "say hi world",
-        "say hellow world",
-    ]})
     .addIntent({ name: "ShowProductsIntent", samples: [
         "show me products",
         "list me products",

@@ -16,14 +16,6 @@
           "name": "AMAZON.CancelItem"
         },
         {
-          "name": "HelloIntent",
-          "samples": [
-            "hello",
-            "say hi world",
-            "say hellow world"
-          ]
-        },
-        {
           "name": "ShowProductsIntent",
           "samples": [
             "show me products",
