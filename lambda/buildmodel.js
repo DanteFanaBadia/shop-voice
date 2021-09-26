@@ -1,14 +1,14 @@
 const { ControlInteractionModelGenerator } = require('ask-sdk-controls');
 
 new ControlInteractionModelGenerator()
-    .withInvocationName('hello world')
+    .withInvocationName('shop voice')
     .addIntent({ name: 'AMAZON.StopIntent' })
     .addIntent({ name: 'AMAZON.NavigateHomeIntent' })
     .addIntent({ name: 'AMAZON.HelpIntent' })
     .addIntent({ name: 'AMAZON.CancelIntent' })
 
     // Add a custom intent
-    .addIntent({ name: 'HelloIntent', samples: [
+    .addIntent({ name: 'ShowProductsIntent', samples: [
         "hello",
         "how are you",
         "say hi world",
@@ -19,4 +19,4 @@ new ControlInteractionModelGenerator()
     ]})
 
     // Build and write (be careful, this overwrites your existing model!!!)
-    .buildAndWrite('../skill-package/interactionModels/custom/en-US-generated.json');
+    .buildAndWrite('../skill-package/interactionModels/custom/en-US.json');
