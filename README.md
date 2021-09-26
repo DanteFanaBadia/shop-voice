@@ -3,7 +3,7 @@
 ## Participants
 
 ```
-Lorna Flerida Espinisa Cuello / 20145845
+Lorna Flerida Espinosa Cuello / 20145845
 Dante Faña Badia / 20156079
 ```
 
