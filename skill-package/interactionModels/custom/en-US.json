@@ -1,7 +1,7 @@
 {
   "interactionModel": {
     "languageModel": {
-      "invocationName": "hello world",
+      "invocationName": "shop voice",
       "intents": [
         {
           "name": "AMAZON.StopIntent"
@@ -16,7 +16,7 @@
           "name": "AMAZON.CancelIntent"
         },
         {
-          "name": "HelloIntent",
+          "name": "ShowProductsIntent",
           "samples": [
             "hello",
             "how are you",
