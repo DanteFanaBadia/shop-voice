@@ -1,7 +1,7 @@
 const { SkillTester, waitForDebugger, TestInput } = require('ask-sdk-controls');
 const { expect } = require('chai');
 const { suite, test } = require('mocha');
-const { LaunchRequestHandler } = require('../intents');
+const { LaunchRequestHandler } = require('../src/handlers');
 
 waitForDebugger();
 
