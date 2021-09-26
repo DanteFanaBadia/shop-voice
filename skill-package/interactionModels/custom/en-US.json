@@ -25,7 +25,8 @@
             "say hi",
             "hi",
             "say hello world",
-            "say hello"
+            "say hello",
+            "say hello world"
           ]
         },
         {
@@ -36,5 +37,5 @@
       "types": []
     }
   },
-  "version": "6"
+  "version": "7"
 }
