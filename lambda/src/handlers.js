@@ -5,7 +5,9 @@ const LaunchRequestHandler = {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'LaunchRequest';
     },
     handle(handlerInput) {
-        const speakOutput = 'Welcome, you can say Hello or Help. Which would you like to try?';
+        const speakOutput = `
+            Welcome to ShopVoice,  here you can say things like "let's search a product", "show me all the product" and "let's place an order".
+        `;
 
         return handlerInput.responseBuilder
             .speak(speakOutput)
