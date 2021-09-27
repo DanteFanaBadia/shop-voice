@@ -21,8 +21,8 @@ const ShowProductsIntentHandler = {
             && Alexa.getIntentName(handlerInput.requestEnvelope) === 'ShowProductsIntent';
     },
 
-    handle(handlerInput) {
-        const product = Shopify.getRecommendedProduct();
+    async handle(handlerInput) {
+        const product = await Shopify.getRecommendedProduct({});
         const speakOutput = `This is our recommended product:  ${product.title}`;
         return handlerInput.responseBuilder
             .speak(speakOutput)
