@@ -22,11 +22,10 @@ const ShowProductsIntentHandler = {
     },
 
     handle(handlerInput) {
-        const speakOutput = 'This are ours products';
-        product = Shopify.getRecommendedProduct();
+        const product = Shopify.getRecommendedProduct();
+        const speakOutput = `This is our recommended product:  ${product.title}`;
         return handlerInput.responseBuilder
             .speak(speakOutput)
-            .withSimpleCard(product.title)
             .reprompt("Tell me if you want to add the product or see the next one")
             .getResponse();
     }
