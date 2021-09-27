@@ -16,9 +16,9 @@ class ShopifyServices{
           });
     }
 
-    async getProducts({ sinceId = '', limit = 5, fields = 'id,images,title,variants,tags'}){
+    async getRecommendedProduct({ sinceId = '', limit = 1, fields = 'id,images,title,variants,tags'}){
         try {
-            return (await this.#client.get(`/products.json?limit=${limit}&fields=${fields}&since_id=${sinceId}`)).data.products;
+            return (await this.#client.get(`/products.json?limit=${limit}&fields=${fields}&since_id=${sinceId}`)).data.products[0];
         } catch(e) {
             throw e;
         }
@@ -65,6 +65,6 @@ class ShopifyServices{
 }
 
 module.exports = {
-    shopifyServices: new ShopifyServices(),
+    Shopify: new ShopifyServices(),
     ShopifyServices
 }

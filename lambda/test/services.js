@@ -1,19 +1,19 @@
 const { expect } = require('chai');
 const { suite, test } = require('mocha');
-const { shopifyServices } = require('../src/services');
+const { Shopify } = require('../src/services');
 
 
 suite("Services", () => {
-    test("Get Products", async () => {
-        const products = await shopifyServices.getProducts({});
-        expect(products).to.be.not.empty;
+    test("Get Product", async () => {
+        const product = await Shopify.getRecommendedProduct({});
+        expect(product).to.be.ok;
     });
     test("Get Customer", async () => {
-        const customer = await shopifyServices.getCustomer({ email: 'dfana@dfb.com.do'});
+        const customer = await Shopify.getCustomer({ email: 'dfana@dfb.com.do'});
         expect(customer).to.be.ok;
     });
     test("Get Orders", async () => {
-        const orders = await shopifyServices.getOrders({ email: 'dfana@dfb.com.do'});
+        const orders = await Shopify.getOrders({ email: 'dfana@dfb.com.do'});
         expect(orders).to.be.not.empty;
     });
     test("Placer Order", async () => {
@@ -26,7 +26,7 @@ suite("Services", () => {
                 }
             ]
         };
-        const orderPlaced = await shopifyServices.placerOrder(data);
+        const orderPlaced = await Shopify.placerOrder(data);
         expect(orderPlaced).to.be.ok;
     });
 })

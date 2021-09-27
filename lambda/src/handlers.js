@@ -1,4 +1,5 @@
 const Alexa = require('ask-sdk-core');
+const { Shopify  } = require('./services');
 
 const LaunchRequestHandler = {
     canHandle(handlerInput) {
@@ -22,9 +23,10 @@ const ShowProductsIntentHandler = {
 
     handle(handlerInput) {
         const speakOutput = 'This are ours products';
-
+        product = Shopify.getRecommendedProduct();
         return handlerInput.responseBuilder
             .speak(speakOutput)
+            .withSimpleCard(product.title)
             .reprompt('add a reprompt if you want to keep the session open for the user to respond')
             .getResponse();
     }
