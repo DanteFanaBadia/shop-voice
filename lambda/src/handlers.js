@@ -27,7 +27,7 @@ const ShowProductsIntentHandler = {
         return handlerInput.responseBuilder
             .speak(speakOutput)
             .withSimpleCard(product.title)
-            .reprompt('add a reprompt if you want to keep the session open for the user to respond')
+            .reprompt("Tell me if you want to add the product or see the next one")
             .getResponse();
     }
 }
