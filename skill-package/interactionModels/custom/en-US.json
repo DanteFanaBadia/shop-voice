@@ -33,7 +33,7 @@
     },
     "prompts": [
       {
-        "id": "Confirm.Intent.BuyProduct",
+        "id": "Confirm.Intent.1",
         "variations": [
           {
             "type": "PlainText",
@@ -49,7 +49,7 @@
           "confirmationRequired": true,
           "prompts": [
             {
-              "confirmation": "Confirm.Intent.BuyProduct"
+              "confirmation": "Confirm.Intent.1"
             }
           ],
           "delegationStrategy": "ALWAYS"
