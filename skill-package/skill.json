@@ -25,9 +25,22 @@
         }
       }
     },
+    "privacyAndCompliance": {
+      "locales": {
+        "en-US": {}
+      }
+    },
     "publishingInformation": {
+      "automaticDistribution": {
+        "isActive": false
+      },
+      "distributionCountries": [],
+      "distributionMode": "PUBLIC",
+      "isAvailableWorldwide": true,
       "locales": {
         "en-US": {
+          "examplePhrases": [],
+          "keywords": [],
           "name": "ShopVoice"
         }
       }
