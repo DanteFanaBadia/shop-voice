@@ -1,5 +1,6 @@
 const Alexa = require('ask-sdk-core');
-const { Shopify  } = require('./services');
+const { Shopify, Cart  } = require('./services');
+
 
 const LaunchRequestHandler = {
     canHandle(handlerInput) {
@@ -22,11 +23,43 @@ const ShowProductsIntentHandler = {
     },
 
     async handle(handlerInput) {
-        const product = await Shopify.getRecommendedProduct({});
+        const {attributesManager} = handlerInput;
+        const attributes = handlerInput.attributesManager.getPersistentAttributes()
+        const currentProduct = attributes.currentProduct || undefined;
+
+        const product = await Shopify.getRecommendedProduct({ sinceId: currentProduct ? currentProduct.id : undefined });
         const speakOutput = `This is our recommended product:  ${product.title}`;
+
+        attributes.currentProduct = product;
+
+        handlerInput.attributesManager.setPersistentAttributes(attributes);
+        handlerInput.attributesManager.savePersistentAttributes();
+
         return handlerInput.responseBuilder
             .speak(speakOutput)
-            .reprompt("Tell me if you want to add the product or see the next one")
+            .addDelegateDirective({
+                name: 'RegisterBirthdayIntent',
+                confirmationStatus: 'NONE',
+                slots: {}
+            })
+            .getResponse();
+    }
+}
+
+const AddProductIntentHandler = {
+    canHandle(handlerInput) {
+        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
+            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'AddProductIntent';
+    },
+
+    async handle(handlerInput) {
+        const attributes = handlerInput.attributesManager.getPersistentAttributes()
+        const currentProduct = attributes.currentProduct;
+       
+        const speakOutput = 'Do you want to add this product to your cart?';
+
+        return handlerInput.responseBuilder
+            .speak(speakOutput)
             .getResponse();
     }
 }
@@ -136,6 +169,7 @@ const ErrorHandler = {
 module.exports = {
     LaunchRequestHandler,
     ShowProductsIntentHandler,
+    AddProductIntentHandler,
     HelpIntentHandler,
     CancelAndStopIntentHandler,
     FallbackIntentHandler,

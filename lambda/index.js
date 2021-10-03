@@ -14,7 +14,7 @@ const handler = Alexa.SkillBuilders.custom()
     .addErrorHandlers(
         Handlers.ErrorHandler
     )
-    .withCustomUserAgent('sample/hello-world/v1.2')
+    .withCustomUserAgent('pucmm-isc/shop-voice/v1.0')
     .lambda();
 
 module.exports = {

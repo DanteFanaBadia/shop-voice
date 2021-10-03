@@ -20,12 +20,6 @@
   "devDependencies": {
     "ask-sdk-local-debug": "^1.1.0",
     "chai": "^4.3.4",
-    "husky": "^7.0.2",
     "mocha": "^9.1.1"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "cd `git rev-parse --show-toplevel`/lambda; npm run buildmodel; git add ../skill-package/interactionModels"
-    }
   }
 }

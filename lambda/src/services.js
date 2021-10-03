@@ -22,7 +22,6 @@ class ShopifyServices{
         } catch(e) {
             throw e;
         }
-        return 
     }
 
     async getCustomer({ email }){
@@ -64,7 +63,17 @@ class ShopifyServices{
     }
 }
 
+class CartService{
+    #sessionAttributes; 
+
+    constructor(){}
+
+    setSessionAttributes(sessionAttributes){
+        this.#sessionAttributes = sessionAttributes;
+    }
+}
+
 module.exports = {
     Shopify: new ShopifyServices(),
-    ShopifyServices
+    Cart: new CartService()
 }

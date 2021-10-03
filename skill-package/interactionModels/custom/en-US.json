@@ -23,10 +23,38 @@
             "show me products",
             "show products"
           ]
+        },
+        {
+          "name": "AddProductIntent",
+          "samples": []
         }
       ],
       "types": []
     },
-    "prompts": []
+    "prompts": [
+      {
+        "id": "Confirm.Intent.BuyProduct",
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "Do you want to buy the product?"
+          }
+        ]
+      }
+    ],
+    "dialog": {
+      "intents": [
+        {
+          "name": "AddProductIntent",
+          "confirmationRequired": true,
+          "prompts": [
+            {
+              "confirmation": "Confirm.Intent.BuyProduct"
+            }
+          ],
+          "delegationStrategy": "ALWAYS"
+        }
+      ]
+    }
   }
 }
