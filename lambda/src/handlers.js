@@ -38,7 +38,7 @@ const ShowProductsIntentHandler = {
         return handlerInput.responseBuilder
             .speak(speakOutput)
             .addDelegateDirective({
-                name: 'RegisterBirthdayIntent',
+                name: 'AddProductIntent',
                 confirmationStatus: 'NONE',
                 slots: {}
             })
