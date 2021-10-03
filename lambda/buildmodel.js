@@ -26,18 +26,16 @@ new ControlInteractionModelGenerator()
     .addDialogIntents({
         name:  "AddProductIntent",
         confirmationRequired: true,
-        prompts: [
-            {
-                confirmation: "Confirm.Intent.BuyProduct"
-            }
-        ],
+        prompts: {
+            confirmation: "Confirm.Intent.1"
+        },
         delegationStrategy: 'ALWAYS'
     }).addPrompt({
-        id: "Confirm.Intent.BuyProduct",
+        id: "Confirm.Intent.1",
         variations: [
             {
                 type: "PlainText",
-                value: "Do you want to buy the product?"
+                value: "That's did I get that right?"
             }
         ]
     })
