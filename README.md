@@ -214,3 +214,173 @@ Using the skill kit to test ours invocation world to open ours skill.
 Then we test ours skill, basic intent.
 
 ![Testing Hello World Intent](resources/8-testing-hello-world-intent.png)
+
+## Deliverable 3
+
+### Goals
+
+- Integrate Alexa with Shopify API
+- Documented Shopify integration
+
+### Overview
+
+For this integration, we use Shopify Admin API and a rest client to request all the needed endpoint.
+
+### Pre-conditions
+
+Before to start the integration, you must have set up a Shopify dev account.
+
+#### Tasks
+
+- AWS Account
+- Amazon Developer Account 
+- Shopify Dev Account 
+
+#### Tools 
+
+- VS Code 
+- Alexa Skills Kit (ASK) Toolkit
+- ASK CLI AWS 
+- Shopify Account 
+
+### Skill Creation Documentations
+
+#### 1 - Create dev store 
+
+Go to https://shopify.dev/ and sign in with your developer account and create a new store, this going to allow you to work with Shopify without any cost.
+
+![Create store](resources/create-store-1.png)
+![Create store](resources/create-store-2.png)
+
+#### 2 - Setup admin API
+
+Go to you store and sign in with you dev account and go home/apps and create a private app, this going to enable the Admin API.
+
+![Create private app](resources/create-private-app-1.png)
+![Create private app](resources/create-private-app-2.png)
+
+
+#### 3 - Test endpoints
+
+Now copy you API Key and your secret key and let's test the API with CURL.
+
+##### All Products
+
+```bash
+curl 
+  --location 
+  --request GET 'https://{store-name}.myshopify.com/admin/api/2021-07/products.json?limit=5&fields=id,images, title,variants,tags&since_id='
+  --header 'Authorization: Basic base64(username:password)'
+```
+
+##### Create an Order
+
+```bash
+curl 
+    --location 
+    --request POST 'https://{store-name}.myshopify.com/admin/api/2021-07/orders.json' 
+    --header 'Authorization: Basic base64(username:password)'
+    --header 'Content-Type: application/json' \
+    --data-raw '{
+    "order": {
+        "line_items": [
+            {
+                "variant_id": ${id_product},
+                "quantity": 1
+            }
+        ],
+        "customer": {
+            "email": "${email}"
+        }
+    }
+}'
+```
+
+#### 4 - Integrate with Alexa Skill
+
+With all the integrations setup and the API testing process to create the Alexa Integrations.
+
+##### Services encapsulation logic with Axios and Rest API
+
+```js
+class ShopifyServices{
+    
+    #client;
+
+    constructor(config = shopifyConfig){
+        const token = Buffer.from(`${config.username}:${config.password}`).toString('base64');
+        this.#client = axios.create({
+            baseURL: config.baseUrl,
+            headers: {
+                'Authorization': `Basic ${token}`,
+                'Content-Type': 'application/json'
+            }
+          });
+    }
+
+    async getRecommendedProduct({ sinceId = '', limit = 1, fields = 'id,images,title,variants,tags'}){
+        try {
+            return (await this.#client.get(`/products.json?limit=${limit}&fields=${fields}&since_id=${sinceId}`)).data.products[0];
+        } catch(e) {
+            throw e;
+        }
+    }
+
+    async placerOrder(order){
+        try {
+            const data = JSON.stringify({
+                order: {
+                    line_items: order.items.map((el) => {
+                        return {
+                            variant_id: el.variantId,
+                            quantity: el.quantity
+                        }
+                    }),
+                    customer: {
+                        email: order.email
+                    }
+                }
+            });
+            return (await this.#client.post('/orders.json', data)).data.order;
+        } catch(e) {
+            throw e;
+        }
+    }
+}
+```
+
+##### Alexa Call with Shopify Services
+
+We can use the services that we create to call without problem to Shopify API (line 9).
+
+```js
+const ShowProductsIntentHandler = {
+    canHandle(handlerInput) {
+        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
+            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'ShowProductsIntent';
+    },
+
+    async handle(handlerInput) {
+        const {attributesManager} = handlerInput;
+        const attributes = handlerInput.attributesManager.getPersistentAttributes()
+        const currentProduct = attributes.currentProduct || undefined;
+
+        const product = await Shopify.getRecommendedProduct({ sinceId: currentProduct ? currentProduct.id : undefined });
+        const speakOutput = `This is our recommended product:  ${product.title}`;
+
+        attributes.currentProduct = product;
+
+        handlerInput.attributesManager.setPersistentAttributes(attributes);
+        handlerInput.attributesManager.savePersistentAttributes();
+
+        return handlerInput.responseBuilder
+            .speak(speakOutput)
+            .addDelegateDirective({
+                name: 'AddProductIntent',
+                confirmationStatus: 'NONE',
+                slots: {}
+            })
+            .getResponse();
+    }
+}
+```

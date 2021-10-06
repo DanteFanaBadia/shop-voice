@@ -24,23 +24,6 @@ class ShopifyServices{
         }
     }
 
-    async getCustomer({ email }){
-        try {
-            return (await this.#client.get(`/customers/search.json?query=email:${email}`)).data.customers[0];
-        } catch(e) {
-            throw e;
-        }
-    }
-
-    async getOrders({ email }){
-        try {
-            const customer = await this.getCustomer({ email });
-            return (await this.#client.get(`/customers/${customer.id}/orders.json`)).data.orders;
-        } catch(e) {
-            throw e;
-        }
-    }
-
     async placerOrder(order){
         try {
             const data = JSON.stringify({
@@ -57,6 +40,23 @@ class ShopifyServices{
                 }
             });
             return (await this.#client.post('/orders.json', data)).data.order;
+        } catch(e) {
+            throw e;
+        }
+    }
+
+    async getCustomer({ email }){
+        try {
+            return (await this.#client.get(`/customers/search.json?query=email:${email}`)).data.customers[0];
+        } catch(e) {
+            throw e;
+        }
+    }
+
+    async getOrders({ email }){
+        try {
+            const customer = await this.getCustomer({ email });
+            return (await this.#client.get(`/customers/${customer.id}/orders.json`)).data.orders;
         } catch(e) {
             throw e;
         }
