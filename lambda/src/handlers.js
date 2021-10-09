@@ -23,26 +23,31 @@ const ShowProductsIntentHandler = {
     },
 
     async handle(handlerInput) {
-        const {attributesManager} = handlerInput;
-        const attributes = handlerInput.attributesManager.getPersistentAttributes()
-        const currentProduct = attributes.currentProduct || undefined;
+        try{
+            const {attributesManager} = handlerInput;
+            const attributes = handlerInput.attributesManager.getPersistentAttributes()
+            const currentProduct = attributes.currentProduct || undefined;
 
-        const product = await Shopify.getRecommendedProduct({ sinceId: currentProduct ? currentProduct.id : undefined });
-        const speakOutput = `This is our recommended product:  ${product.title}`;
+            const product = await Shopify.getRecommendedProduct({ sinceId: currentProduct ? currentProduct.id : undefined });
+            const speakOutput = `This is our recommended product:  ${product.title}`;
 
-        attributes.currentProduct = product;
+            attributes.currentProduct = product;
 
-        handlerInput.attributesManager.setPersistentAttributes(attributes);
-        handlerInput.attributesManager.savePersistentAttributes();
+            handlerInput.attributesManager.setPersistentAttributes(attributes);
+            handlerInput.attributesManager.savePersistentAttributes();
 
-        return handlerInput.responseBuilder
-            .speak(speakOutput)
-            .addDelegateDirective({
-                name: 'AddProductIntent',
-                confirmationStatus: 'NONE',
-                slots: {}
-            })
-            .getResponse();
+            return handlerInput.responseBuilder
+                .speak(speakOutput)
+                .addDelegateDirective({
+                    name: 'AddProductIntent',
+                    confirmationStatus: 'NONE',
+                    slots: {}
+                })
+                .getResponse();
+        } catch (e){
+            console.log(e);
+        }
+        
     }
 }
 
