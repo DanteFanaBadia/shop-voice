@@ -7,8 +7,7 @@ const LaunchRequestHandler = {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'LaunchRequest';
     },
     async handle(handlerInput) {
-        const speakOutput = 'Welcome to daily product, where we show product recomendation every day.';
-        const repromptText = 'If you want to see today recomendation you can say "show me a new product"';
+        const speakOutput = 'Welcome to daily product, where we show product recomendation every day. \n If you want to see today recomendation you can say "show me a new product"';
         return handlerInput.responseBuilder
             .speak(speakOutput)
             .reprompt(repromptText)
@@ -19,23 +18,31 @@ const LaunchRequestHandler = {
 
 const ShowProductOfTheDayIntentHandler = {
     canHandle(handlerInput) {
-        return (Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
-            || Alexa.getRequestType(handlerInput.requestEnvelope) === 'LaunchRequest')
+        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
             && Alexa.getIntentName(handlerInput.requestEnvelope) === 'ShowProductOfTheDayIntent';
     },
 
     async handle(handlerInput) {
         try{
             const {attributesManager} = handlerInput;
+
+            const product = undefined;
             const attributes = handlerInput.attributesManager.getPersistentAttributes();
             const currentProduct = attributes.currentProduct || undefined;
-
-            const product = await Shopify.getRecommendedProduct({ sinceId: currentProduct ? currentProduct.id : undefined });
-            const speakOutput = `${product.title}`;
+            
+            if(currentProduct.id) {
+                product = await Shopify.getRecommendedProduct({ sinceId: currentProduct.id });
+            } 
+            
+            if (product == undefined) {
+                product = await Shopify.getRecommendedProduct();
+            }
 
             attributes.currentProduct = product;
             handlerInput.attributesManager.setPersistentAttributes(attributes);
             handlerInput.attributesManager.savePersistentAttributes();
+
+            const speakOutput = `${product.title}`;
 
             return handlerInput.responseBuilder
                 .speak(speakOutput)
