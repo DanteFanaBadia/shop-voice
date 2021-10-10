@@ -105,8 +105,8 @@ const AddProductToCartIntentHandler = {
             const {attributesManager} = handlerInput;
             const attributes = await handlerInput.attributesManager.getPersistentAttributes();
             const currentProduct = attributes.currentProduct || undefined;
-            attributes.cart = [...attributes.cart, ...[currentProduct]];
-            console.debug(attributes.cart);
+            const cart = attributes.cart || [];
+            attributes.cart = [...cart, ...[currentProduct]];
             await handlerInput.attributesManager.setPersistentAttributes(attributes);
             await handlerInput.attributesManager.savePersistentAttributes();
             return handlerInput.responseBuilder
