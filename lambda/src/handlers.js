@@ -7,22 +7,11 @@ const LaunchRequestHandler = {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'LaunchRequest';
     },
     async handle(handlerInput) {
-        const speakOutput1 = 'Welcome to daily product, where we show product recomendation every day, here is the product of the day.';
-
-        const {attributesManager} = handlerInput;
-        const attributes = handlerInput.attributesManager.getPersistentAttributes();
-        const currentProduct = attributes.currentProduct || undefined;
-
-        const product = await Shopify.getRecommendedProduct({ sinceId: currentProduct ? currentProduct.id : undefined });
-        const speakOutput2 = `${product.title}`;
-
-        attributes.currentProduct = product;
-        handlerInput.attributesManager.setPersistentAttributes(attributes);
-        handlerInput.attributesManager.savePersistentAttributes();
-
+        const speakOutput = 'Welcome to daily product, where we show product recomendation every day.';
+        const repromptText = 'If you want to see today recomendation you can say "show me a new product"';
         return handlerInput.responseBuilder
-            .speak(speakOutput1)
-            .speak(speakOutput2)
+            .speak(speakOutput)
+            .reprompt(repromptText)
             .getResponse();
     }
 };
@@ -30,7 +19,8 @@ const LaunchRequestHandler = {
 
 const ShowProductOfTheDayIntentHandler = {
     canHandle(handlerInput) {
-        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
+        return (Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
+            || Alexa.getRequestType(handlerInput.requestEnvelope) === 'LaunchRequest')
             && Alexa.getIntentName(handlerInput.requestEnvelope) === 'ShowProductOfTheDayIntent';
     },
 
