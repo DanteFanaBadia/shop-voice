@@ -18,8 +18,24 @@ module.exports = {
         return s3PreSignedUrl;
     },
     getPersistenceAdapter() {
-        return new S3PersistenceAdapter({ 
-            bucketName: process.env.S3_PERSISTENCE_BUCKET
-        });
+        function isAlexaHosted() {
+            return process.env.S3_PERSISTENCE_BUCKET ? true : false;
+        }
+        var persistenceAdapter;
+        if(isAlexaHosted()) {
+            const {S3PersistenceAdapter} = require('ask-sdk-s3-persistence-adapter');
+            persistenceAdapter = new S3PersistenceAdapter({ 
+                bucketName: process.env.S3_PERSISTENCE_BUCKET,
+                objectKeyGenerator: keyGenerator
+            });
+        } else {
+            const {DynamoDbPersistenceAdapter} = require('ask-sdk-dynamodb-persistence-adapter');
+            persistenceAdapter = new DynamoDbPersistenceAdapter({ 
+                tableName: 'global_attr_table',
+                createTable: true,
+                partitionKeyGenerator: keyGenerator
+            });
+        }
+        return persistenceAdapter;
     }
 }
