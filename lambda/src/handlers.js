@@ -109,6 +109,9 @@ const AddProductToCartIntentHandler = {
             attributes.cart = [...cart, ...[currentProduct]];
             await handlerInput.attributesManager.setPersistentAttributes(attributes);
             await handlerInput.attributesManager.savePersistentAttributes();
+
+            const speakOutput = `Product: ${currentProduct.title}, added to the cart.`;
+
             return handlerInput.responseBuilder
                 .speak(speakOutput)
                 .reprompt()
