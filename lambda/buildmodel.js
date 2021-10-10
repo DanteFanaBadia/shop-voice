@@ -40,6 +40,15 @@ new ControlInteractionModelGenerator()
             'add',
         ]
     })
+    .addIntent({ 
+        name: 'PlaceOrderIntent', 
+        samples: [
+            'place an order',
+            'place order',
+            'place',
+            'order',
+        ]
+    })
     // .addIntent({ 
     //     name: 'AddProductIntent', 
     //     samples: [

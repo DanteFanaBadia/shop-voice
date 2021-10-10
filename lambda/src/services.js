@@ -24,19 +24,16 @@ class ShopifyServices{
         }
     }
 
-    async placerOrder(order){
+    async placerOrder({items = []}){
         try {
             const data = JSON.stringify({
                 order: {
-                    line_items: order.items.map((el) => {
+                    line_items: items.map((el) => {
                         return {
-                            variant_id: el.variantId,
+                            variant_id: el.variants[0].id,
                             quantity: el.quantity
                         }
-                    }),
-                    customer: {
-                        email: order.email
-                    }
+                    })
                 }
             });
             return (await this.#client.post('/orders.json', data)).data.order;

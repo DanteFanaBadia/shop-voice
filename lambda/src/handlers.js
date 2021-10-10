@@ -105,6 +105,7 @@ const AddProductToCartIntentHandler = {
             const {attributesManager} = handlerInput;
             const attributes = await handlerInput.attributesManager.getPersistentAttributes();
             const currentProduct = attributes.currentProduct || undefined;
+            currentProduct.quantity += 1;
             const cart = attributes.cart || [];
             attributes.cart = [...cart, ...[currentProduct]];
             await handlerInput.attributesManager.setPersistentAttributes(attributes);
@@ -122,7 +123,34 @@ const AddProductToCartIntentHandler = {
     }
 }
 
+const PlaceOrderIntentHandler = {
+    canHandle(handlerInput) {
+        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
+            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'PlaceOrderIntent';
+    },
+    async handle(handlerInput) {
+        try{
+            const {attributesManager} = handlerInput;
+            const attributes = await handlerInput.attributesManager.getPersistentAttributes();
+            const cart = attributes.cart || [];
+            const order = Shopify.placerOrder({
+                items: cart
+            });
+            attributes.cart = [];
+            await handlerInput.attributesManager.setPersistentAttributes(attributes);
+            await handlerInput.attributesManager.savePersistentAttributes();
 
+            const speakOutput = `Order created, confirmation number: ${order.id}.`;
+
+            return handlerInput.responseBuilder
+                .speak(speakOutput)
+                .reprompt()
+                .getResponse();
+        } catch (e){
+            console.log(e);
+        }
+    }
+}
 
 const HelpIntentHandler = {
     canHandle(handlerInput) {

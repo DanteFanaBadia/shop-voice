@@ -9,6 +9,7 @@ const handler = Alexa.SkillBuilders.custom()
         Handlers.CheckProductPriceIntentHandler,
         Handlers.CheckProductAvailabilityIntentHandler,
         Handlers.AddProductToCartIntentHandler,
+        Handlers.PlaceOrderIntentHandler,
         Handlers.HelpIntentHandler,
         Handlers.CancelAndStopIntentHandler,
         Handlers.FallbackIntentHandler,
