@@ -154,7 +154,7 @@ const PlaceOrderIntentHandler = {
             const {attributesManager} = handlerInput;
             const attributes = await handlerInput.attributesManager.getPersistentAttributes();
             const cart = attributes.cart || [];
-            if (cart && cart.lenght){
+            if (cart && cart.length){
                 const order = await Shopify.placerOrder({
                     items: cart
                 });
