@@ -24,11 +24,14 @@ const ShowProductOfTheDayIntentHandler = {
     async handle(handlerInput) {
         try{
             const {attributesManager} = handlerInput;
-
+            let speakOutput = '';
             let product = undefined;
             const attributes = handlerInput.attributesManager.getPersistentAttributes();
             const currentProduct = attributes.currentProduct || undefined;
             
+            console.debug(attributes);
+            console.debug(currentProduct);
+
             if(currentProduct && currentProduct.id) {
                 product = await Shopify.getRecommendedProduct({ sinceId: currentProduct.id });
             } 
@@ -41,7 +44,10 @@ const ShowProductOfTheDayIntentHandler = {
             handlerInput.attributesManager.setPersistentAttributes(attributes);
             handlerInput.attributesManager.savePersistentAttributes();
 
-            const speakOutput = `${product.title}`;
+            console.debug(attributes);
+            console.debug(currentProduct);
+
+            speakOutput += `${product.title}`;
 
             return handlerInput.responseBuilder
                 .speak(speakOutput)
