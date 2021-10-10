@@ -25,16 +25,16 @@ const ShowProductOfTheDayIntentHandler = {
         try{
             const {attributesManager} = handlerInput;
 
-            const product = undefined;
+            let product = undefined;
             const attributes = handlerInput.attributesManager.getPersistentAttributes();
             const currentProduct = attributes.currentProduct || undefined;
             
-            if(currentProduct.id) {
+            if(currentProduct && currentProduct.id) {
                 product = await Shopify.getRecommendedProduct({ sinceId: currentProduct.id });
             } 
             
             if (product == undefined) {
-                product = await Shopify.getRecommendedProduct();
+                product = await Shopify.getRecommendedProduct({});
             }
 
             attributes.currentProduct = product;
