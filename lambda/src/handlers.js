@@ -43,11 +43,6 @@ const ShowProductOfTheDayIntentHandler = {
 
             return handlerInput.responseBuilder
                 .speak(speakOutput)
-                .addDelegateDirective({
-                    name: 'AMAZON.HelpIntent',
-                    confirmationStatus: 'NONE',
-                    slots: {}
-                })
                 .getResponse();
         } catch (e){
             console.log(e);
