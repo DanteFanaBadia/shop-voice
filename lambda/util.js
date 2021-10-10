@@ -1,10 +1,20 @@
 const AWS = require('aws-sdk');
-const {S3PersistenceAdapter} = require('ask-sdk-s3-persistence-adapter');
 
 const s3SigV4Client = new AWS.S3({
     signatureVersion: 'v4',
     region: process.env.S3_PERSISTENCE_REGION
 });
+
+function keyGenerator(requestEnvelope) {
+    if (requestEnvelope
+        && requestEnvelope.context
+        && requestEnvelope.context.System
+        && requestEnvelope.context.System.application
+        && requestEnvelope.context.System.application.applicationId) {
+      return requestEnvelope.context.System.application.applicationId; 
+    }
+    throw 'Cannot retrieve app id from request envelope!';
+}
 
 module.exports = {
     getS3PreSignedUrl(s3ObjectKey) {
