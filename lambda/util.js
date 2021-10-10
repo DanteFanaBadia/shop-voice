@@ -1,4 +1,5 @@
 const AWS = require('aws-sdk');
+const {S3PersistenceAdapter} = require('ask-sdk-s3-persistence-adapter');
 
 const s3SigV4Client = new AWS.S3({
     signatureVersion: 'v4',
@@ -16,23 +17,9 @@ module.exports = {
         console.log(`Util.s3PreSignedUrl: ${s3ObjectKey} URL ${s3PreSignedUrl}`);
         return s3PreSignedUrl;
     },
-    getPersistenceAdapter(tableName) {
-        // This function is an indirect way to detect if this is part of an Alexa-Hosted skill
-        function isAlexaHosted() {
-            return process.env.S3_PERSISTENCE_BUCKET;
-        }
-        if (isAlexaHosted()) {
-            const {S3PersistenceAdapter} = require('ask-sdk-s3-persistence-adapter');
-            return new S3PersistenceAdapter({ 
-                bucketName: process.env.S3_PERSISTENCE_BUCKET
-            });
-        } else {
-            // IMPORTANT: don't forget to give DynamoDB access to the role you're using to run this lambda (via IAM policy)
-            const {DynamoDbPersistenceAdapter} = require('ask-sdk-dynamodb-persistence-adapter');
-            return new DynamoDbPersistenceAdapter({ 
-                tableName: tableName || 'happy_birthday',
-                createTable: true
-            });
-        }
+    getPersistenceAdapter() {
+        return new S3PersistenceAdapter({ 
+            bucketName: process.env.S3_PERSISTENCE_BUCKET
+        });
     }
 }
