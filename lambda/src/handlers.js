@@ -45,6 +45,7 @@ const ShowProductOfTheDayIntentHandler = {
 
             return handlerInput.responseBuilder
                 .speak(speakOutput)
+                .reprompt()
                 .getResponse();
         } catch (e){
             console.log(e);
