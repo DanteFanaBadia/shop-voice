@@ -7,16 +7,22 @@ const LaunchRequestHandler = {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'LaunchRequest';
     },
     handle(handlerInput) {
-        const speakOutput = 'Welcome to daily product, where we show product recomendation every day, here is the product of the day.';
+        const speakOutput1 = 'Welcome to daily product, where we show product recomendation every day, here is the product of the day.';
+
+        const {attributesManager} = handlerInput;
+        const attributes = handlerInput.attributesManager.getPersistentAttributes();
+        const currentProduct = attributes.currentProduct || undefined;
+
+        const product = await Shopify.getRecommendedProduct({ sinceId: currentProduct ? currentProduct.id : undefined });
+        const speakOutput2 = `${product.title}`;
+
+        attributes.currentProduct = product;
+        handlerInput.attributesManager.setPersistentAttributes(attributes);
+        handlerInput.attributesManager.savePersistentAttributes();
 
         return handlerInput.responseBuilder
-            .speak(speakOutput)
-            .reprompt(speakOutput)
-            .addDelegateDirective({
-                name: 'ShowProductOfTheDayIntent',
-                confirmationStatus: 'NONE',
-                slots: {}
-            })
+            .speak(speakOutput1)
+            .speak(speakOutput2)
             .getResponse();
     }
 };
