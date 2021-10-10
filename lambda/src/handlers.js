@@ -10,7 +10,6 @@ const LaunchRequestHandler = {
         const speakOutput = 'Welcome to daily product, where we show product recomendation every day. If you want to see today recomendation you can say "show me a new product"';
         return handlerInput.responseBuilder
             .speak(speakOutput)
-            .reprompt(repromptText)
             .getResponse();
     }
 };
