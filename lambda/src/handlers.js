@@ -26,7 +26,7 @@ const ShowProductOfTheDayIntentHandler = {
             const {attributesManager} = handlerInput;
 
             let product = undefined;
-            const attributes = handlerInput.attributesManager.getPersistentAttributes();
+            const attributes = {}; //handlerInput.attributesManager.getPersistentAttributes();
             const currentProduct = attributes.currentProduct || undefined;
             
             if(currentProduct && currentProduct.id) {
@@ -38,8 +38,8 @@ const ShowProductOfTheDayIntentHandler = {
             }
 
             attributes.currentProduct = product;
-            handlerInput.attributesManager.setPersistentAttributes(attributes);
-            handlerInput.attributesManager.savePersistentAttributes();
+            // handlerInput.attributesManager.setPersistentAttributes(attributes);
+            // handlerInput.attributesManager.savePersistentAttributes();
 
             const speakOutput = `${product.title}`;
 
