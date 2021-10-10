@@ -1,7 +1,7 @@
 {
   "interactionModel": {
     "languageModel": {
-      "invocationName": "shop voice",
+      "invocationName": "daily product",
       "intents": [
         {
           "name": "AMAZON.StopIntent"
@@ -16,43 +16,17 @@
           "name": "AMAZON.CancelIntent"
         },
         {
-          "name": "ShowProductsIntent",
+          "name": "ShowProductOfTheDay",
           "samples": [
             "show me all the products",
             "show me all products",
             "show me products",
             "show products"
           ]
-        },
-        {
-          "name": "AddProductIntent",
-          "samples": []
         }
       ],
       "types": []
     },
-    "prompts": [
-      {
-        "id": "Confirm.Intent.1",
-        "variations": [
-          {
-            "type": "PlainText",
-            "value": "That's did I get that right?"
-          }
-        ]
-      }
-    ],
-    "dialog": {
-      "intents": [
-        {
-          "name": "AddProductIntent",
-          "confirmationRequired": true,
-          "prompts": {
-            "confirmation": "Confirm.Intent.1"
-          },
-          "delegationStrategy": "ALWAYS"
-        }
-      ]
-    }
+    "prompts": []
   }
 }

@@ -1,7 +1,7 @@
 const { ControlInteractionModelGenerator } = require('ask-sdk-controls');
 
 new ControlInteractionModelGenerator()
-    .withInvocationName('shop voice')
+    .withInvocationName('daily product')
     .addIntent({ name: 'AMAZON.StopIntent' })
     .addIntent({ name: 'AMAZON.NavigateHomeIntent' })
     .addIntent({ name: 'AMAZON.HelpIntent' })
@@ -9,7 +9,7 @@ new ControlInteractionModelGenerator()
 
     // Add a custom intent
     .addIntent({ 
-        name: 'ShowProductsIntent', 
+        name: 'ShowProductOfTheDay', 
         samples: [
             "show me all the products",
             "show me all products",
@@ -17,28 +17,28 @@ new ControlInteractionModelGenerator()
             "show products"
         ]
     })
-    .addIntent({ 
-        name: "AddProductIntent", 
-        samples: [
+    // .addIntent({ 
+    //     name: "AddProductIntent", 
+    //     samples: [
             
-        ]
-    })
-    .addDialogIntents({
-        name:  "AddProductIntent",
-        confirmationRequired: true,
-        prompts: {
-            confirmation: "Confirm.Intent.1"
-        },
-        delegationStrategy: 'ALWAYS'
-    }).addPrompt({
-        id: "Confirm.Intent.1",
-        variations: [
-            {
-                type: "PlainText",
-                value: "That's did I get that right?"
-            }
-        ]
-    })
+    //     ]
+    // })
+    // .addDialogIntents({
+    //     name:  "AddProductIntent",
+    //     confirmationRequired: true,
+    //     prompts: {
+    //         confirmation: "Confirm.Intent.1"
+    //     },
+    //     delegationStrategy: 'ALWAYS'
+    // }).addPrompt({
+    //     id: "Confirm.Intent.1",
+    //     variations: [
+    //         {
+    //             type: "PlainText",
+    //             value: "That's did I get that right?"
+    //         }
+    //     ]
+    // })
 
     // Build and write (be careful, this overwrites your existing model!!!)
     .buildAndWrite('../skill-package/interactionModels/custom/en-US.json');

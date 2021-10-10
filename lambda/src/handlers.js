@@ -1,5 +1,5 @@
 const Alexa = require('ask-sdk-core');
-const { Shopify, Cart  } = require('./services');
+const { Shopify  } = require('./services');
 
 
 const LaunchRequestHandler = {
@@ -7,39 +7,42 @@ const LaunchRequestHandler = {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'LaunchRequest';
     },
     handle(handlerInput) {
-        const speakOutput = 'Welcome to ShopVoice,  here you can say things like "let\'s search a product", "show me all the products" and "let\'s place an order".';
+        const speakOutput = 'Welcome to daily product, where we show product recomendation every day, here is the product of the day.';
 
         return handlerInput.responseBuilder
             .speak(speakOutput)
             .reprompt(speakOutput)
+            .addDelegateDirective({
+                name: 'ShowProductOfTheDay'
+            })
             .getResponse();
     }
 };
 
-const ShowProductsIntentHandler = {
+
+const ShowProductOfTheDayIntentHandler = {
     canHandle(handlerInput) {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
-            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'ShowProductsIntent';
+            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'ShowProductOfTheDay';
     },
 
     async handle(handlerInput) {
         try{
             const {attributesManager} = handlerInput;
-            const attributes = handlerInput.attributesManager.getPersistentAttributes()
+            const attributes = handlerInput.attributesManager.getPersistentAttributes();
             const currentProduct = attributes.currentProduct || undefined;
 
             const product = await Shopify.getRecommendedProduct({ sinceId: currentProduct ? currentProduct.id : undefined });
-            const speakOutput = `This is our recommended product:  ${product.title}`;
+            const speakOutput = `${product.title}`;
 
             attributes.currentProduct = product;
-
             handlerInput.attributesManager.setPersistentAttributes(attributes);
             handlerInput.attributesManager.savePersistentAttributes();
 
             return handlerInput.responseBuilder
                 .speak(speakOutput)
                 .addDelegateDirective({
-                    name: 'AddProductIntent',
+                    name: 'Help',
                     confirmationStatus: 'NONE',
                     slots: {}
                 })
@@ -51,31 +54,13 @@ const ShowProductsIntentHandler = {
     }
 }
 
-const AddProductIntentHandler = {
-    canHandle(handlerInput) {
-        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
-            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'AddProductIntent';
-    },
-
-    async handle(handlerInput) {
-        const attributes = handlerInput.attributesManager.getPersistentAttributes()
-        const currentProduct = attributes.currentProduct;
-       
-        const speakOutput = 'Do you want to add this product to your cart?';
-
-        return handlerInput.responseBuilder
-            .speak(speakOutput)
-            .getResponse();
-    }
-}
-
 const HelpIntentHandler = {
     canHandle(handlerInput) {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
             && Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.HelpIntent';
     },
     handle(handlerInput) {
-        const speakOutput = 'You can say hello to me! How can I help?';
+        const speakOutput = 'You can say "show me a new product", "check product availability", "check product price" or "place a order"';
 
         return handlerInput.responseBuilder
             .speak(speakOutput)
@@ -173,8 +158,7 @@ const ErrorHandler = {
 
 module.exports = {
     LaunchRequestHandler,
-    ShowProductsIntentHandler,
-    AddProductIntentHandler,
+    ShowProductOfTheDayIntentHandler,
     HelpIntentHandler,
     CancelAndStopIntentHandler,
     FallbackIntentHandler,

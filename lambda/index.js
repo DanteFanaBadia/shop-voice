@@ -5,7 +5,7 @@ const util = require('./util');
 const handler = Alexa.SkillBuilders.custom()
     .addRequestHandlers(
         Handlers.LaunchRequestHandler,
-        Handlers.ShowProductsIntentHandler,
+        Handlers.ShowProductOfTheDayIntentHandler,
         Handlers.HelpIntentHandler,
         Handlers.CancelAndStopIntentHandler,
         Handlers.FallbackIntentHandler,

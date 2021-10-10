@@ -16,17 +16,17 @@ suite("Services", () => {
         const orders = await Shopify.getOrders({ email: 'dfana@dfb.com.do'});
         expect(orders).to.be.not.empty;
     }, 12000);
-    test("Placer Order", async () => {
-        const data = {
-            email: 'dfana@dfb.com.do',
-            items: [
-                {
-                    variantId: 40800983154865,
-                    quantity: 1
-                }
-            ]
-        };
-        const orderPlaced = await Shopify.placerOrder(data);
-        expect(orderPlaced).to.be.ok;
-    }, 12000);
+    // test("Placer Order", async () => {
+    //     const data = {
+    //         email: 'dfana@dfb.com.do',
+    //         items: [
+    //             {
+    //                 variantId: 40800983154865,
+    //                 quantity: 1
+    //             }
+    //         ]
+    //     };
+    //     const orderPlaced = await Shopify.placerOrder(data);
+    //     expect(orderPlaced).to.be.ok;
+    // }, 12000);
 })

@@ -63,17 +63,6 @@ class ShopifyServices{
     }
 }
 
-class CartService{
-    #sessionAttributes; 
-
-    constructor(){}
-
-    setSessionAttributes(sessionAttributes){
-        this.#sessionAttributes = sessionAttributes;
-    }
-}
-
 module.exports = {
     Shopify: new ShopifyServices(),
-    Cart: new CartService()
 }
