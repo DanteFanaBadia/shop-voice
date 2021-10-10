@@ -23,25 +23,25 @@ const ShowProductOfTheDayIntentHandler = {
 
     async handle(handlerInput) {
         try{
-            const {attributesManager} = handlerInput;
+            // const {attributesManager} = handlerInput;
 
-            let product = undefined;
-            const attributes = {}; //handlerInput.attributesManager.getPersistentAttributes();
-            const currentProduct = attributes.currentProduct || undefined;
+            // let product = undefined;
+            // const attributes = {}; //handlerInput.attributesManager.getPersistentAttributes();
+            // const currentProduct = attributes.currentProduct || undefined;
             
-            if(currentProduct && currentProduct.id) {
-                product = await Shopify.getRecommendedProduct({ sinceId: currentProduct.id });
-            } 
+            // if(currentProduct && currentProduct.id) {
+            //     product = await Shopify.getRecommendedProduct({ sinceId: currentProduct.id });
+            // } 
             
-            if (product == undefined) {
-                product = await Shopify.getRecommendedProduct({});
-            }
+            // if (product === undefined) {
+            //     product = await Shopify.getRecommendedProduct({});
+            // }
 
-            attributes.currentProduct = product;
-            // handlerInput.attributesManager.setPersistentAttributes(attributes);
-            // handlerInput.attributesManager.savePersistentAttributes();
+            // attributes.currentProduct = product;
+            // // handlerInput.attributesManager.setPersistentAttributes(attributes);
+            // // handlerInput.attributesManager.savePersistentAttributes();
 
-            const speakOutput = `${product.title}`;
+            const speakOutput = `test`;
 
             return handlerInput.responseBuilder
                 .speak(speakOutput)
