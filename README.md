@@ -380,3 +380,16 @@ const ShowProductsIntentHandler = {
     }
 }
 ```
+
+## Deliverable 4
+
+### Goals
+
+- Demo of the Alexa Skill Working
+
+### Overview
+
+For this deliverable we present the demo of the skill working.
+
+![Demo 1](resources/demo-1.png)
+![Demo 2](resources/demo-2.png)
