@@ -6,7 +6,7 @@ const LaunchRequestHandler = {
     canHandle(handlerInput) {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'LaunchRequest';
     },
-    handle(handlerInput) {
+    async handle(handlerInput) {
         const speakOutput1 = 'Welcome to daily product, where we show product recomendation every day, here is the product of the day.';
 
         const {attributesManager} = handlerInput;
