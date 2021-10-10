@@ -46,6 +46,15 @@
             "add product",
             "add"
           ]
+        },
+        {
+          "name": "PlaceOrderIntent",
+          "samples": [
+            "place an order",
+            "place order",
+            "place",
+            "order"
+          ]
         }
       ],
       "types": []
