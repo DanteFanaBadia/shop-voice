@@ -254,6 +254,7 @@ module.exports = {
     ShowProductOfTheDayIntentHandler,
     CheckProductAvailabilityIntentHandler,
     CheckProductPriceIntentHandler,
+    PlaceOrderIntentHandler,
     AddProductToCartIntentHandler,
     HelpIntentHandler,
     CancelAndStopIntentHandler,
