@@ -10,6 +10,7 @@ const LaunchRequestHandler = {
         const speakOutput = 'Welcome to daily product, where we show product recomendation every day. If you want to see today recomendation you can say "show me a new product"';
         return handlerInput.responseBuilder
             .speak(speakOutput)
+            .reprompt()
             .getResponse();
     }
 };
@@ -20,26 +21,25 @@ const ShowProductOfTheDayIntentHandler = {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
             && Alexa.getIntentName(handlerInput.requestEnvelope) === 'ShowProductOfTheDayIntent';
     },
-
     async handle(handlerInput) {
         try{
             const {attributesManager} = handlerInput;
 
             let product = undefined;
-            const attributes = {}; //handlerInput.attributesManager.getPersistentAttributes();
+            const attributes = handlerInput.attributesManager.getPersistentAttributes();
             const currentProduct = attributes.currentProduct || undefined;
             
             if(currentProduct && currentProduct.id) {
                 product = await Shopify.getRecommendedProduct({ sinceId: currentProduct.id });
             } 
             
-            if (product == undefined) {
+            if (product === undefined) {
                 product = await Shopify.getRecommendedProduct({});
             }
 
             attributes.currentProduct = product;
-            // handlerInput.attributesManager.setPersistentAttributes(attributes);
-            // handlerInput.attributesManager.savePersistentAttributes();
+            handlerInput.attributesManager.setPersistentAttributes(attributes);
+            handlerInput.attributesManager.savePersistentAttributes();
 
             const speakOutput = `${product.title}`;
 
