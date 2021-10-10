@@ -6,6 +6,9 @@ const handler = Alexa.SkillBuilders.custom()
     .addRequestHandlers(
         Handlers.LaunchRequestHandler,
         Handlers.ShowProductOfTheDayIntentHandler,
+        Handlers.CheckProductPriceIntentHandler,
+        Handlers.CheckProductAvailabilityIntentHandler,
+        Handlers.AddProductToCartIntentHandler,
         Handlers.HelpIntentHandler,
         Handlers.CancelAndStopIntentHandler,
         Handlers.FallbackIntentHandler,

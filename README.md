@@ -26,13 +26,9 @@ The Alexa-based device should be a channel for requests to add products to the s
 
 ##### Must have 
 - Add product to shopping cart 
-- Check product prices 
+- Check product price
 - Check product availability
 - Simulate online purchase checkout
-
-##### Nice to have 
-- List products (5 by 5)
-- Search products
 
 ## Deliverable 1
 

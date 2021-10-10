@@ -46,18 +46,80 @@ const ShowProductOfTheDayIntentHandler = {
             return handlerInput.responseBuilder
                 .speak(speakOutput)
                 .reprompt()
-                .addDelegateDirective({
-                    name: 'AMAZON.HelpIntent',
-                    confirmationStatus: 'NONE',
-                    slots: {}
-                })
                 .getResponse();
         } catch (e){
             console.log(e);
         }
-        
     }
 }
+
+const CheckProductAvailabilityIntentHandler = {
+    canHandle(handlerInput) {
+        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
+            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'CheckProductAvailabilityIntent';
+    },
+    async handle(handlerInput) {
+        try{
+            const {attributesManager} = handlerInput;
+            const attributes = await handlerInput.attributesManager.getPersistentAttributes();
+            const currentProduct = attributes.currentProduct || undefined;
+            const speakOutput = `The current availability of the product is: ${currentProduct.variants[0].inventory_quantity}`;
+            return handlerInput.responseBuilder
+                .speak(speakOutput)
+                .reprompt()
+                .getResponse();
+        } catch (e){
+            console.log(e);
+        }
+    }
+}
+
+const CheckProductPriceIntentHandler = {
+    canHandle(handlerInput) {
+        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
+            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'CheckProductPriceIntent';
+    },
+    async handle(handlerInput) {
+        try{
+            const {attributesManager} = handlerInput;
+            const attributes = await handlerInput.attributesManager.getPersistentAttributes();
+            const currentProduct = attributes.currentProduct || undefined;
+            const speakOutput = `The price of the product is: ${currentProduct.variants[0].price}`;
+            return handlerInput.responseBuilder
+                .speak(speakOutput)
+                .reprompt()
+                .getResponse();
+        } catch (e){
+            console.log(e);
+        }
+    }
+}
+
+const AddProductToCartIntentHandler = {
+    canHandle(handlerInput) {
+        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
+            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'AddProductToCartIntent';
+    },
+    async handle(handlerInput) {
+        try{
+            const {attributesManager} = handlerInput;
+            const attributes = await handlerInput.attributesManager.getPersistentAttributes();
+            const currentProduct = attributes.currentProduct || undefined;
+            attributes.cart = [...attributes.cart, ...[currentProduct]];
+            console.debug(attributes.cart);
+            await handlerInput.attributesManager.setPersistentAttributes(attributes);
+            await handlerInput.attributesManager.savePersistentAttributes();
+            return handlerInput.responseBuilder
+                .speak(speakOutput)
+                .reprompt()
+                .getResponse();
+        } catch (e){
+            console.log(e);
+        }
+    }
+}
+
+
 
 const HelpIntentHandler = {
     canHandle(handlerInput) {
@@ -66,10 +128,9 @@ const HelpIntentHandler = {
     },
     handle(handlerInput) {
         const speakOutput = 'You can say "show me a new product", "check product availability", "check product price" or "place a order"';
-
         return handlerInput.responseBuilder
             .speak(speakOutput)
-            .reprompt(speakOutput)
+            .reprompt()
             .getResponse();
     }
 };
@@ -82,7 +143,6 @@ const CancelAndStopIntentHandler = {
     },
     handle(handlerInput) {
         const speakOutput = 'Goodbye!';
-
         return handlerInput.responseBuilder
             .speak(speakOutput)
             .getResponse();
@@ -100,7 +160,6 @@ const FallbackIntentHandler = {
     },
     handle(handlerInput) {
         const speakOutput = 'Sorry, I don\'t know about that. Please try again.';
-
         return handlerInput.responseBuilder
             .speak(speakOutput)
             .reprompt(speakOutput)
@@ -134,7 +193,6 @@ const IntentReflectorHandler = {
     handle(handlerInput) {
         const intentName = Alexa.getIntentName(handlerInput.requestEnvelope);
         const speakOutput = `You just triggered ${intentName}`;
-
         return handlerInput.responseBuilder
             .speak(speakOutput)
             //.reprompt('add a reprompt if you want to keep the session open for the user to respond')
@@ -153,7 +211,6 @@ const ErrorHandler = {
     handle(handlerInput, error) {
         const speakOutput = 'Sorry, I had trouble doing what you asked. Please try again.';
         console.log(`~~~~ Error handled: ${JSON.stringify(error)}`);
-
         return handlerInput.responseBuilder
             .speak(speakOutput)
             .reprompt(speakOutput)
@@ -164,6 +221,9 @@ const ErrorHandler = {
 module.exports = {
     LaunchRequestHandler,
     ShowProductOfTheDayIntentHandler,
+    CheckProductAvailabilityIntentHandler,
+    CheckProductPriceIntentHandler,
+    AddProductToCartIntentHandler,
     HelpIntentHandler,
     CancelAndStopIntentHandler,
     FallbackIntentHandler,
