@@ -9,7 +9,7 @@ new ControlInteractionModelGenerator()
 
     // Add a custom intent
     .addIntent({ 
-        name: 'ShowProductOfTheDay', 
+        name: 'ShowProductOfTheDayIntent', 
         samples: [
             "show me all the products",
             "show me all products",

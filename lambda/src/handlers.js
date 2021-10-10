@@ -13,7 +13,9 @@ const LaunchRequestHandler = {
             .speak(speakOutput)
             .reprompt(speakOutput)
             .addDelegateDirective({
-                name: 'ShowProductOfTheDay'
+                name: 'ShowProductOfTheDayIntent',
+                confirmationStatus: 'NONE',
+                slots: {}
             })
             .getResponse();
     }
@@ -23,7 +25,7 @@ const LaunchRequestHandler = {
 const ShowProductOfTheDayIntentHandler = {
     canHandle(handlerInput) {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
-            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'ShowProductOfTheDay';
+            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'ShowProductOfTheDayIntent';
     },
 
     async handle(handlerInput) {
