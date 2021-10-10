@@ -29,9 +29,6 @@ const ShowProductOfTheDayIntentHandler = {
             const attributes = await handlerInput.attributesManager.getPersistentAttributes();
             const currentProduct = attributes.currentProduct || undefined;
             
-            console.debug(attributes);
-            console.debug(currentProduct);
-
             if(currentProduct && currentProduct.id) {
                 product = await Shopify.getRecommendedProduct({ sinceId: currentProduct.id });
             } 
@@ -44,14 +41,16 @@ const ShowProductOfTheDayIntentHandler = {
             await handlerInput.attributesManager.setPersistentAttributes(attributes);
             await handlerInput.attributesManager.savePersistentAttributes();
 
-            console.debug(attributes);
-            console.debug(currentProduct);
-
             speakOutput += `${product.title}`;
 
             return handlerInput.responseBuilder
                 .speak(speakOutput)
                 .reprompt()
+                .addDelegateDirective({
+                    name: 'AMAZON.HelpIntent',
+                    confirmationStatus: 'NONE',
+                    slots: {}
+                })
                 .getResponse();
         } catch (e){
             console.log(e);
