@@ -63,11 +63,18 @@ const CheckProductAvailabilityIntentHandler = {
             const {attributesManager} = handlerInput;
             const attributes = await handlerInput.attributesManager.getPersistentAttributes();
             const currentProduct = attributes.currentProduct || undefined;
-            const speakOutput = `The current availability of the product is: ${currentProduct.variants[0].inventory_quantity}`;
-            return handlerInput.responseBuilder
-                .speak(speakOutput)
+            if(currentProduct){
+                const speakOutput = `The current availability of the product is: ${currentProduct.variants[0].inventory_quantity}`;
+                return handlerInput.responseBuilder
+                    .speak(speakOutput)
+                    .reprompt()
+                    .getResponse();
+            }else {
+                return handlerInput.responseBuilder
+                .speak("Sorry you need to request to a product first.")
                 .reprompt()
                 .getResponse();
+            }    
         } catch (e){
             console.log(e);
         }
@@ -84,11 +91,18 @@ const CheckProductPriceIntentHandler = {
             const {attributesManager} = handlerInput;
             const attributes = await handlerInput.attributesManager.getPersistentAttributes();
             const currentProduct = attributes.currentProduct || undefined;
-            const speakOutput = `The price of the product is: ${currentProduct.variants[0].price}`;
-            return handlerInput.responseBuilder
-                .speak(speakOutput)
+            if(currentProduct){
+                const speakOutput = `The price of the product is: ${currentProduct.variants[0].price}`;
+                return handlerInput.responseBuilder
+                    .speak(speakOutput)
+                    .reprompt()
+                    .getResponse();
+            } else {
+                return handlerInput.responseBuilder
+                .speak("Sorry you need to request to a product first.")
                 .reprompt()
                 .getResponse();
+            }
         } catch (e){
             console.log(e);
         }
@@ -105,18 +119,25 @@ const AddProductToCartIntentHandler = {
             const {attributesManager} = handlerInput;
             const attributes = await handlerInput.attributesManager.getPersistentAttributes();
             const currentProduct = attributes.currentProduct || undefined;
-            currentProduct.quantity += 1;
-            const cart = attributes.cart || [];
-            attributes.cart = [...cart, ...[currentProduct]];
-            await handlerInput.attributesManager.setPersistentAttributes(attributes);
-            await handlerInput.attributesManager.savePersistentAttributes();
-
-            const speakOutput = `Product: ${currentProduct.title}, added to the cart.`;
-
-            return handlerInput.responseBuilder
-                .speak(speakOutput)
+            if(currentProduct){
+                currentProduct.quantity += 1;
+                const cart = attributes.cart || [];
+                attributes.cart = [...cart, ...[currentProduct]];
+                await handlerInput.attributesManager.setPersistentAttributes(attributes);
+                await handlerInput.attributesManager.savePersistentAttributes();
+    
+                const speakOutput = `Product: ${currentProduct.title}, added to the cart.`;
+    
+                return handlerInput.responseBuilder
+                    .speak(speakOutput)
+                    .reprompt()
+                    .getResponse();
+            } else {
+                return handlerInput.responseBuilder
+                .speak("Sorry you need to request to a product first.")
                 .reprompt()
                 .getResponse();
+            }
         } catch (e){
             console.log(e);
         }
@@ -133,19 +154,26 @@ const PlaceOrderIntentHandler = {
             const {attributesManager} = handlerInput;
             const attributes = await handlerInput.attributesManager.getPersistentAttributes();
             const cart = attributes.cart || [];
-            const order = await Shopify.placerOrder({
-                items: cart
-            });
-            attributes.cart = [];
-            await handlerInput.attributesManager.setPersistentAttributes(attributes);
-            await handlerInput.attributesManager.savePersistentAttributes();
-
-            const speakOutput = `Order created, confirmation number: ${order.id}.`;
-
-            return handlerInput.responseBuilder
-                .speak(speakOutput)
+            if (cart && cart.lenght){
+                const order = await Shopify.placerOrder({
+                    items: cart
+                });
+                attributes.cart = [];
+                await handlerInput.attributesManager.setPersistentAttributes(attributes);
+                await handlerInput.attributesManager.savePersistentAttributes();
+    
+                const speakOutput = `Order created, confirmation number: ${order.id}.`;
+    
+                return handlerInput.responseBuilder
+                    .speak(speakOutput)
+                    .reprompt()
+                    .getResponse();
+            } else {
+                return handlerInput.responseBuilder
+                .speak("Sorry we can't place the order, your cart is empty.")
                 .reprompt()
                 .getResponse();
+            }
         } catch (e){
             console.log(e);
         }
