@@ -12,10 +12,8 @@ new ControlInteractionModelGenerator()
         name: 'ShowProductOfTheDayIntent', 
         samples: [
             "show me a new product",
-            "show me product",
-            "show me product",
             "show me a product",
-            "show product"
+            "show product",
         ]
     })
     // .addIntent({ 
