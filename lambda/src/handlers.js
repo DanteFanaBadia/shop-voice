@@ -26,7 +26,7 @@ const ShowProductOfTheDayIntentHandler = {
             const {attributesManager} = handlerInput;
             let speakOutput = '';
             let product = undefined;
-            const attributes = handlerInput.attributesManager.getPersistentAttributes();
+            const attributes = await handlerInput.attributesManager.getPersistentAttributes();
             const currentProduct = attributes.currentProduct || undefined;
             
             console.debug(attributes);
@@ -41,8 +41,8 @@ const ShowProductOfTheDayIntentHandler = {
             }
 
             attributes.currentProduct = product;
-            handlerInput.attributesManager.setPersistentAttributes(attributes);
-            handlerInput.attributesManager.savePersistentAttributes();
+            await handlerInput.attributesManager.setPersistentAttributes(attributes);
+            await handlerInput.attributesManager.savePersistentAttributes();
 
             console.debug(attributes);
             console.debug(currentProduct);
